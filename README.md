@@ -1,0 +1,2 @@
+# stylewithmeblcn
+inventory management system
