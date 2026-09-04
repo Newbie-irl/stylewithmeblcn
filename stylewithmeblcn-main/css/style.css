@@ -1,12 +1,12 @@
 * {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 body {
     margin: 0;
     font-family: poppins, sans-serif;
     background: #202020;
-    color: #171717
+    color: #171717;
 }
 
 .app {
@@ -14,7 +14,7 @@ body {
     min-height: 100vh;
     max-width: 1500px;
     margin: auto;
-    background: #fff
+    background: #fff;
 }
 
 .sidebar {
@@ -24,7 +24,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 0 16px 24px
+    padding: 0 16px 24px;
 }
 
 .brand {
@@ -32,13 +32,13 @@ body {
     font-weight: bold;
     color: #8c3e5a;
     font-size: 20px;
-    padding: 28px 12px 24px
+    padding: 28px 12px 24px;
 }
 
 .nav {
     display: flex;
     flex-direction: column;
-    gap: 4px
+    gap: 4px;
 }
 
 .nav-link {
@@ -49,13 +49,15 @@ body {
     font-size: 13px;
     display: flex;
     gap: 10px;
-    align-items: center
+    align-items: center;
+    font-weight: semibold;
+    transition: 0.2s ease-in;
 }
 
 .nav-link.active,
 .nav-link:hover {
     background: #8c3e5a;
-    color: white
+    color: white;
 }
 
 .logout {
@@ -65,12 +67,18 @@ body {
     background: #e8e8e8;
     color: #9a344e;
     font-weight: bold;
-    cursor: pointer
+    cursor: pointer;
+    transition: 0.2s ease-in;
+}
+
+.logout:hover {
+    background: #bebbbb;
+    color: #9a344e;
 }
 
 .main {
     flex: 1;
-    background: #fff
+    background: #fff;
 }
 
 .topbar {
@@ -79,32 +87,32 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 28px
+    padding: 0 28px;
 }
 
 .topbar h1 {
-    font-size: 16px
+    font-size: 16px;
 }
 
 .top-actions {
     display: flex;
     align-items: center;
-    gap: 12px
+    gap: 12px;
 }
 
 .badge {
     font-size: 11px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 7px 9px
+    padding: 7px 9px;
 }
 
 .warning {
-    color: #8c6900
+    color: #8c6900;
 }
 
 .danger {
-    color: #9d1e1e
+    color: #9d1e1e;
 }
 
 .admin {
@@ -112,30 +120,30 @@ body {
     align-items: center;
     gap: 9px;
     margin-left: 18px;
-    font-size: 10px
+    font-size: 10px;
 }
 
 .admin small,
 .admin strong {
-    display: block
+    display: block;
 }
 
 .admin small {
     color: #999;
     font-weight: normal;
-    margin-top: 3px
+    margin-top: 3px;
 }
 
 .avatar {
-    font-size: 27px
+    font-size: 27px;
 }
 
 .content {
-    padding: 26px 28px
+    padding: 26px 28px;
 }
 
 .welcome {
-    margin: 0 0 28px 25px
+    margin: 0 0 28px 25px;
 }
 
 .welcome h2,
