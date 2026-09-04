@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StyleWithMeBLCN | Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div>
+        <div class="brand">StyleWithMeBLCN</div>
+        <nav class="nav">
+          <a class="nav-link active" href="index.html">⌘ <span>Dashboard</span></a>
+          <a class="nav-link" href="products.html">▣ <span>Manage Product</span></a>
+          <a class="nav-link" href="inventory.html">▤ <span>Manage Inventory</span></a>
+          <a class="nav-link" href="low-stock.html">♧ <span>Low Stock Alert</span></a>
+          <a class="nav-link" href="out-of-stock.html">⊗ <span>Out of Stocks</span></a>
+        </nav>
+      </div>
+      <button class="logout" onclick="logout()">↪ Log Out</button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1>Dashboard</h1>
+        <div class="top-actions">
+          <span class="badge warning">◉ Low Stock</span>
+          <span class="badge danger">⊗ Out of Stock</span>
+          <div class="admin">
+            <div class="avatar">◯</div>
+            <div><strong>Admin User</strong><small>admin@gmail.com</small></div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="welcome">
+          <h2>Welcome back, admin!</h2>
+          <p>Here’s what happening in your inventory today</p>
+        </div>
+
+        <section class="stats">
+          <div class="stat-card">
+            <div class="stat-icon">◇</div>
+            <div><span>Total Products</span><strong>248</strong><small>All Items in Inventory</small></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">✓</div>
+            <div><span>In Stock</span><strong>210</strong><small>All Items in Inventory</small></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon yellow">△</div>
+            <div><span>Low Stock</span><strong>28</strong><small>All Items in Inventory</small></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red">⊗</div>
+            <div><span>Out of Stock</span><strong>10</strong><small>All Items in Inventory</small></div>
+          </div>
+        </section>
+
+        <section class="management-grid">
+          <div class="panel">
+            <h3>◇ Manage Product</h3>
+            <p>Add, edit or remove products from your catalog.</p>
+            <a class="action-row" href="products.html">☷ <span>View Stock List</span> →</a>
+            <a class="action-row" href="products.html">▣ <span>Add / Edit / Delete Product</span> →</a>
+            <a class="action-row" href="products.html">▣ <span>Save Changes</span> →</a>
+          </div>
+          <div class="panel">
+            <h3>▤ Manage Inventory</h3>
+            <p>Track stock levels and update inventory counts.</p>
+            <a class="action-row" href="inventory.html">☷ <span>View Stock List</span> →</a>
+            <a class="action-row" href="inventory.html">↔ <span>Update Stock (In/Out)</span> →</a>
+            <a class="action-row" href="inventory.html">▣ <span>Save Changes</span> →</a>
+          </div>
+          <div class="panel">
+            <h3>♧ Low Stock Alert</h3>
+            <p>View low stock items and take action.</p>
+            <a class="action-row" href="low-stock.html">☷ <span>View Stock List</span> →</a>
+            <a class="action-row" href="low-stock.html">◉ <span>Review Product and Take Actions</span> →</a>
+          </div>
+        </section>
+
+        <section class="table-panel">
+          <div class="table-title">Recent Low Stock Products</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Code</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Baggy Pants</td>
+                  <td>#0001</td>
+                  <td>
+                    <div class="stock"><span>5</span><i><b style="width:25%"></b></i></div>
+                  </td>
+                  <td><span class="status low">Low Stock</span></td>
+                  <td><a href="products.html">◉</a></td>
+                </tr>
+                <tr>
+                  <td>Flared Jeans</td>
+                  <td>#0002</td>
+                  <td>
+                    <div class="stock"><span>8</span><i><b style="width:40%"></b></i></div>
+                  </td>
+                  <td><span class="status low">Low Stock</span></td>
+                  <td><a href="products.html">◉</a></td>
+                </tr>
+                <tr>
+                  <td>Cargo Pants</td>
+                  <td>#0003</td>
+                  <td>
+                    <div class="stock"><span>12</span><i><b class="ok" style="width:60%"></b></i></div>
+                  </td>
+                  <td><span class="status in">In Stock</span></td>
+                  <td><a href="products.html">◉</a></td>
+                </tr>
+                <tr>
+                  <td>Skinny Jeans</td>
+                  <td>#0004</td>
+                  <td>
+                    <div class="stock"><span>0</span><i><b class="zero" style="width:5%"></b></i></div>
+                  </td>
+                  <td><span class="status out">Out of Stock</span></td>
+                  <td><a href="out-of-stock.html">◉</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination"><small>Showing 1–4 of 248 Products</small>
+            <div><button>‹</button><button class="current">1</button><button>2</button><button>›</button></div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+
+</html>
