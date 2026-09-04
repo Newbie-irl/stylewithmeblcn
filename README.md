@@ -28,7 +28,7 @@ No installation is required.
 ## Team Members
 John Hendrix Quizon
 Jeanua Mig Buensuceso
-Erich V. Mariano
+Erich V. Mariano (Newbie-irl)
 Rhem Villasenor
 Arfel Mendoza
 Victorino Timbad
