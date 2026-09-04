@@ -28,7 +28,7 @@ No installation is required.
 ## Team Members
 John Hendrix Quizon
 Jeanua Mig Buensuceso
-Erich V. Mariano 
+Erich V. Mariano
 Rhem Villasenor
 Arfel Mendoza
 Victorino Timbad
@@ -36,4 +36,4 @@ Victorino Timbad
 ## Project Description
 StyleWithMeBLCN is an inventory management interface for managing pants/products, stock quantities, low-stock alerts, and out-of-stock products.
 
-
+> Note: This milestone is frontend-only. Database/backend functionality can be connected in later milestones.
