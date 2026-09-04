@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleWithMeBLCN | Manage Product</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div>
+                <div class="brand">StyleWithMeBLCN</div>
+                <nav class="nav">
+                    <a class="nav-link " href="index.html">⌘ <span>Dashboard</span></a>
+                    <a class="nav-link active" href="products.html">▣ <span>Manage Product</span></a>
+                    <a class="nav-link " href="inventory.html">▤ <span>Manage Inventory</span></a>
+                    <a class="nav-link " href="low-stock.html">♧ <span>Low Stock Alert</span></a>
+                    <a class="nav-link " href="out-of-stock.html">⊗ <span>Out of Stocks</span></a>
+                </nav>
+            </div><button class="logout" onclick="logout()">↪ Log Out</button>
+        </aside>
+        <main class="main">
+            <header class="topbar">
+                <h1>Manage Product</h1>
+                <div class="top-actions"><span class="badge warning">◉ Low Stock</span><span class="badge danger">⊗ Out
+                        of Stock</span>
+                    <div class="admin">
+                        <div class="avatar">◯</div>
+                        <div><strong>Admin User</strong><small>admin@gmail.com</small></div>
+                    </div>
+                </div>
+            </header>
+            <section class="content">
+                <div class="page-heading">
+                    <h2>Manage Product</h2>
+                    <p>Add, edit, delete, and view products in your catalog.</p>
+                </div>
+                <section class="table-panel full">
+                    <div class="toolbar"><input id="searchInput" type="search" placeholder="Search product..."><button
+                            class="primary" onclick="alert('Add Product form can be connected here.')">+ Add
+                            Product</button></div>
+                    <div class="table-wrap">
+                        <table id="productTable">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Code</th>
+                                    <th>Category</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Baggy Pants</td>
+                                    <td>#0001</td>
+                                    <td>Pants</td>
+                                    <td>5</td>
+                                    <td><span class="status low">Low Stock</span></td>
+                                    <td><button class="text-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Flared Jeans</td>
+                                    <td>#0002</td>
+                                    <td>Jeans</td>
+                                    <td>8</td>
+                                    <td><span class="status low">Low Stock</span></td>
+                                    <td><button class="text-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Cargo Pants</td>
+                                    <td>#0003</td>
+                                    <td>Pants</td>
+                                    <td>12</td>
+                                    <td><span class="status in">In Stock</span></td>
+                                    <td><button class="text-btn">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Skinny Jeans</td>
+                                    <td>#0004</td>
+                                    <td>Jeans</td>
+                                    <td>0</td>
+                                    <td><span class="status out">Out of Stock</span></td>
+                                    <td><button class="text-btn">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
