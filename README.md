@@ -36,4 +36,4 @@ Victorino Timbad
 ## Project Description
 StyleWithMeBLCN is an inventory management interface for managing pants/products, stock quantities, low-stock alerts, and out-of-stock products.
 
-> Note: This milestone is frontend-only. Database/backend functionality can be connected in later milestones.
+
