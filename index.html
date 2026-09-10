@@ -49,19 +49,19 @@
         <section class="stats">
           <div class="stat-card">
             <div class="stat-icon">◇</div>
-            <div><span>Total Products</span><strong>248</strong><small>All Items in Inventory</small></div>
+            <div><span>Total Products</span><strong id="statTotal">0</strong><small>All Items in Inventory</small></div>
           </div>
           <div class="stat-card">
             <div class="stat-icon green">✓</div>
-            <div><span>In Stock</span><strong>210</strong><small>All Items in Inventory</small></div>
+            <div><span>In Stock</span><strong id="statIn">0</strong><small>All Items in Inventory</small></div>
           </div>
           <div class="stat-card">
             <div class="stat-icon yellow">△</div>
-            <div><span>Low Stock</span><strong>28</strong><small>All Items in Inventory</small></div>
+            <div><span>Low Stock</span><strong id="statLow">0</strong><small>All Items in Inventory</small></div>
           </div>
           <div class="stat-card">
             <div class="stat-icon red">⊗</div>
-            <div><span>Out of Stock</span><strong>10</strong><small>All Items in Inventory</small></div>
+            <div><span>Out of Stock</span><strong id="statOut">0</strong><small>All Items in Inventory</small></div>
           </div>
         </section>
 
@@ -101,54 +101,19 @@
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>Baggy Pants</td>
-                  <td>#0001</td>
-                  <td>
-                    <div class="stock"><span>5</span><i><b style="width:25%"></b></i></div>
-                  </td>
-                  <td><span class="status low">Low Stock</span></td>
-                  <td><a href="products.html">◉</a></td>
-                </tr>
-                <tr>
-                  <td>Flared Jeans</td>
-                  <td>#0002</td>
-                  <td>
-                    <div class="stock"><span>8</span><i><b style="width:40%"></b></i></div>
-                  </td>
-                  <td><span class="status low">Low Stock</span></td>
-                  <td><a href="products.html">◉</a></td>
-                </tr>
-                <tr>
-                  <td>Cargo Pants</td>
-                  <td>#0003</td>
-                  <td>
-                    <div class="stock"><span>12</span><i><b class="ok" style="width:60%"></b></i></div>
-                  </td>
-                  <td><span class="status in">In Stock</span></td>
-                  <td><a href="products.html">◉</a></td>
-                </tr>
-                <tr>
-                  <td>Skinny Jeans</td>
-                  <td>#0004</td>
-                  <td>
-                    <div class="stock"><span>0</span><i><b class="zero" style="width:5%"></b></i></div>
-                  </td>
-                  <td><span class="status out">Out of Stock</span></td>
-                  <td><a href="out-of-stock.html">◉</a></td>
-                </tr>
+              <tbody id="recentLowStockBody">
               </tbody>
             </table>
           </div>
-          <div class="pagination"><small>Showing 1–4 of 248 Products</small>
-            <div><button>‹</button><button class="current">1</button><button>2</button><button>›</button></div>
+          <div class="pagination"><small id="paginationCount">Showing 0 of 0 Products</small>
+            <div><button>‹</button><button class="current">1</button><button>›</button></div>
           </div>
         </section>
       </section>
     </main>
   </div>
   <script src="js/script.js"></script>
+  <script>initPage('dashboard');</script>
 </body>
 
 </html>

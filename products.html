@@ -43,7 +43,7 @@
                 </div>
                 <section class="table-panel full">
                     <div class="toolbar"><input id="searchInput" type="search" placeholder="Search product..."><button
-                            class="primary">+ Add
+                            id="addProductBtn" class="primary">+ Add
                             Product</button></div>
                     <div class="table-wrap">
                         <table id="productTable">
@@ -57,39 +57,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Baggy Pants</td>
-                                    <td>#0001</td>
-                                    <td>Pants</td>
-                                    <td>5</td>
-                                    <td><span class="status low">Low Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Flared Jeans</td>
-                                    <td>#0002</td>
-                                    <td>Jeans</td>
-                                    <td>8</td>
-                                    <td><span class="status low">Low Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Cargo Pants</td>
-                                    <td>#0003</td>
-                                    <td>Pants</td>
-                                    <td>12</td>
-                                    <td><span class="status in">In Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Skinny Jeans</td>
-                                    <td>#0004</td>
-                                    <td>Jeans</td>
-                                    <td>0</td>
-                                    <td><span class="status out">Out of Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
+                            <tbody id="productBody">
+                                <!-- Rendered dynamically by js/script.js -->
                             </tbody>
                         </table>
                     </div>
@@ -97,6 +66,31 @@
             </section>
         </main>
     </div>
+
+    <div id="productModal" class="modal-overlay">
+        <div class="modal">
+            <h3 id="modalTitle">Add Product</h3>
+            <form id="productForm">
+                <div class="form-group">
+                    <label for="productName">Item Name</label>
+                    <input type="text" id="productName" placeholder="e.g. Baggy Pants" required>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <input type="text" id="productCategory" placeholder="e.g. Pants" required>
+                </div>
+                <div class="form-group">
+                    <label for="productStock">Stock Quantity</label>
+                    <input type="number" id="productStock" min="0" placeholder="e.g. 10" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelModalBtn" class="btn-secondary">Cancel</button>
+                    <button type="submit" class="primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="js/script.js"></script>
 </body>
 

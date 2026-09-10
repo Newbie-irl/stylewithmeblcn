@@ -28,7 +28,7 @@
         <main class="main">
             <header class="topbar">
                 <h1>Low Stock Alert</h1>
-                <div classS="top-actions"><span class="badge warning">◉ Low Stock</span><span class="badge danger">⊗ Out
+                <div class="top-actions"><span class="badge warning">◉ Low Stock</span><span class="badge danger">⊗ Out
                         of Stock</span>
                     <div class="admin">
                         <div class="avatar">◯</div>
@@ -43,7 +43,7 @@
                 </div>
                 <section class="table-panel full">
                     <div class="toolbar"><input id="searchInput" type="search" placeholder="Search product..."><button
-                            class="primary">+ Add Product</button></div>
+                            class="primary" onclick="placeholderAction('Add Product')">+ Add Product</button></div>
                     <div class="table-wrap">
                         <table id="productTable">
                             <thead>
@@ -63,7 +63,7 @@
                                     <td>Pants</td>
                                     <td>5</td>
                                     <td><span class="status low">Low Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
+                                    <td><button class="text-btn" onclick="placeholderAction('View Baggy Pants')">View</button></td>
                                 </tr>
                                 <tr>
                                     <td>Flared Jeans</td>
@@ -71,23 +71,7 @@
                                     <td>Jeans</td>
                                     <td>8</td>
                                     <td><span class="status low">Low Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Cargo Pants</td>
-                                    <td>#0003</td>
-                                    <td>Pants</td>
-                                    <td>12</td>
-                                    <td><span class="status in">In Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Skinny Jeans</td>
-                                    <td>#0004</td>
-                                    <td>Jeans</td>
-                                    <td>0</td>
-                                    <td><span class="status out">Out of Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
+                                    <td><button class="text-btn" onclick="placeholderAction('View Flared Jeans')">View</button></td>
                                 </tr>
                             </tbody>
                         </table>
