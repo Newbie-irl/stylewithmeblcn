@@ -1,5 +1,9 @@
 function logout() {
-  alert("Logout is a placeholder for this frontend milestone.");
+  console.log("Logout is a placeholder for this frontend milestone.");
+}
+
+function restockProduct(productName) {
+  console.log(`Restock for "${productName}" will be connected to the inventory update flow in a later milestone.`);
 }
 
 const search = document.getElementById("searchInput");
