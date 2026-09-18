@@ -42,9 +42,9 @@
                     <p>Products currently unavailable in your inventory.</p>
                 </div>
                 <section class="table-panel full">
-                    <div class="toolbar"><input id="searchInput" type="search" placeholder="Search product..."><button
-                            class="primary">+ Add
-                            Product</button></div>
+                    <div class="toolbar">
+                        <input id="searchInput" type="search" placeholder="Search product...">
+                    </div>
                     <div class="table-wrap">
                         <table id="productTable">
                             <thead>
@@ -57,31 +57,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Skinny Jeans</td>
-                                    <td>#0004</td>
-                                    <td>Jeans</td>
-                                    <td>0</td>
-                                    <td><span class="status out">Out of Stock</span></td>
-                                    <td><button class="text-btn" onclick="restockProduct('Skinny Jeans')">Restock</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Denim Shorts</td>
-                                    <td>#0005</td>
-                                    <td>Shorts</td>
-                                    <td>0</td>
-                                    <td><span class="status out">Out of Stock</span></td>
-                                    <td><button class="text-btn" onclick="restockProduct('Denim Shorts')">Restock</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Wide Leg Trousers</td>
-                                    <td>#0006</td>
-                                    <td>Trousers</td>
-                                    <td>0</td>
-                                    <td><span class="status out">Out of Stock</span></td>
-                                    <td><button class="text-btn" onclick="restockProduct('Wide Leg Trousers')">Restock</button></td>
-                                </tr>
+                            <tbody id="outOfStockBody">
+                                <!-- Rendered dynamically by js/script.js -->
                             </tbody>
                         </table>
                     </div>
@@ -90,6 +67,7 @@
         </main>
     </div>
     <script src="js/script.js"></script>
+    <script>initPage('out-of-stock');</script>
 </body>
 
 </html>

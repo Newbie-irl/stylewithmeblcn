@@ -42,8 +42,9 @@
                     <p>Review products that are running low and take action.</p>
                 </div>
                 <section class="table-panel full">
-                    <div class="toolbar"><input id="searchInput" type="search" placeholder="Search product..."><button
-                            class="primary" onclick="placeholderAction('Add Product')">+ Add Product</button></div>
+                    <div class="toolbar">
+                        <input id="searchInput" type="search" placeholder="Search product...">
+                    </div>
                     <div class="table-wrap">
                         <table id="productTable">
                             <thead>
@@ -56,23 +57,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Baggy Pants</td>
-                                    <td>#0001</td>
-                                    <td>Pants</td>
-                                    <td>5</td>
-                                    <td><span class="status low">Low Stock</span></td>
-                                    <td><button class="text-btn" onclick="placeholderAction('View Baggy Pants')">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Flared Jeans</td>
-                                    <td>#0002</td>
-                                    <td>Jeans</td>
-                                    <td>8</td>
-                                    <td><span class="status low">Low Stock</span></td>
-                                    <td><button class="text-btn" onclick="placeholderAction('View Flared Jeans')">View</button></td>
-                                </tr>
+                            <tbody id="lowStockBody">
+                                <!-- Rendered dynamically by js/script.js -->
                             </tbody>
                         </table>
                     </div>
@@ -81,6 +67,7 @@
         </main>
     </div>
     <script src="js/script.js"></script>
+    <script>initPage('low-stock');</script>
 </body>
 
 </html>

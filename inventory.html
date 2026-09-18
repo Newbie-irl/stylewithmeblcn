@@ -42,9 +42,7 @@
                     <p>Update stock quantities and monitor inventory levels.</p>
                 </div>
                 <section class="table-panel full">
-                    <div class="toolbar"><input id="searchInput" type="search" placeholder="Search product..."><button
-                            class="primary">+ Update
-                            Stock</button></div>
+                    <div class="toolbar"><input id="searchInput" type="search" placeholder="Search product..."></div>
                     <div class="table-wrap">
                         <table id="productTable">
                             <thead>
@@ -57,39 +55,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Baggy Pants</td>
-                                    <td>#0001</td>
-                                    <td>Pants</td>
-                                    <td>5</td>
-                                    <td><span class="status low">Low Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Flared Jeans</td>
-                                    <td>#0002</td>
-                                    <td>Jeans</td>
-                                    <td>8</td>
-                                    <td><span class="status low">Low Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Cargo Pants</td>
-                                    <td>#0003</td>
-                                    <td>Pants</td>
-                                    <td>12</td>
-                                    <td><span class="status in">In Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Skinny Jeans</td>
-                                    <td>#0004</td>
-                                    <td>Jeans</td>
-                                    <td>0</td>
-                                    <td><span class="status out">Out of Stock</span></td>
-                                    <td><button class="text-btn">View</button></td>
-                                </tr>
+                            <tbody id="inventoryBody">
+                                <!-- Rendered dynamically by js/script.js -->
                             </tbody>
                         </table>
                     </div>
@@ -98,6 +65,7 @@
         </main>
     </div>
     <script src="js/script.js"></script>
+    <script>initPage('inventory');</script>
 </body>
 
 </html>

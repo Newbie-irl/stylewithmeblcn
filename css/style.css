@@ -405,15 +405,32 @@ input {
 }
 
 .text-btn {
-    border: 0;
-    background: none;
+    border: 1px solid #8c3e5a;
+    background: #fff;
     color: #8c3e5a;
-    cursor: pointer
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 8px;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: 0.2s ease-in;
+}
+
+.text-btn:hover {
+    background: #8c3e5a;
+    color: #fff;
 }
 
 .text-btn.danger-text {
+    border-color: #d22;
     color: #d22;
     margin-left: 8px;
+}
+
+.text-btn.danger-text:hover {
+    background: #d22;
+    color: #fff;
 }
 
 @media(max-width:900px) {

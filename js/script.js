@@ -13,12 +13,192 @@ function logout() {
   location.href = LOGIN_PAGE;
 }
 
-function restockProduct(productName) {
-  console.log(`Restock for "${productName}" will be connected to the inventory update flow in a later milestone.`);
+// ============================================================
+// Shared product data layer — every page reads/writes this,
+// so Manage Product, Manage Inventory, Low Stock, Out of Stock
+// and the Dashboard all stay in sync automatically.
+// ============================================================
+const STORAGE_KEY = "swm_products";
+
+const seedProducts = [
+  { id: 1, name: "Baggy Pants", code: "#0001", category: "Pants", stock: 5 },
+  { id: 2, name: "Flared Jeans", code: "#0002", category: "Jeans", stock: 8 },
+  { id: 3, name: "Cargo Pants", code: "#0003", category: "Pants", stock: 12 },
+  { id: 4, name: "Skinny Jeans", code: "#0004", category: "Jeans", stock: 0 },
+  { id: 5, name: "Denim Shorts", code: "#0005", category: "Shorts", stock: 0 },
+  { id: 6, name: "Wide Leg Trousers", code: "#0006", category: "Trousers", stock: 0 },
+];
+
+function loadProducts() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) {
+    saveProducts(seedProducts);
+    return seedProducts.slice();
+  }
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : seedProducts.slice();
+  } catch {
+    saveProducts(seedProducts);
+    return seedProducts.slice();
+  }
+}
+
+function saveProducts(products) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+}
+
+function getStatus(stock) {
+  if (stock === 0) return { cls: "out", label: "Out of Stock" };
+  if (stock < 10) return { cls: "low", label: "Low Stock" };
+  return { cls: "in", label: "In Stock" };
+}
+
+function nextCode(products) {
+  const max = products.reduce((m, p) => {
+    const n = parseInt(String(p.code).replace("#", ""), 10);
+    return isNaN(n) ? m : Math.max(m, n);
+  }, 0);
+  return "#" + String(max + 1).padStart(4, "0");
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = String(str ?? "");
+  return div.innerHTML;
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+// Shared "update stock" action used by Manage Inventory, Low Stock
+// Alert, Out of Stock, and the Dashboard's low-stock table.
+function updateStock(productId) {
+  const products = loadProducts();
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  const input = prompt(`New stock quantity for "${product.name}":`, product.stock);
+  if (input === null) return;
+  const stock = parseInt(input, 10);
+  if (isNaN(stock) || stock < 0) {
+    alert("Please enter a valid, non-negative number.");
+    return;
+  }
+
+  product.stock = stock;
+  saveProducts(products);
+  initPage(document.body.dataset.page);
+}
+
+function restockProduct(productId) {
+  updateStock(productId);
 }
 
 function placeholderAction(label) {
   console.log(`"${label}" will be connected in a later milestone.`);
+}
+
+// ============================================================
+// Per-page rendering, driven off the shared product data
+// ============================================================
+function renderDashboard(products) {
+  const total = products.length;
+  const inStock = products.filter(p => p.stock >= 10).length;
+  const low = products.filter(p => p.stock > 0 && p.stock < 10).length;
+  const out = products.filter(p => p.stock === 0).length;
+
+  setText("statTotal", total);
+  setText("statIn", inStock);
+  setText("statLow", low);
+  setText("statOut", out);
+
+  const lowStockItems = products.filter(p => p.stock > 0 && p.stock < 10).slice(0, 5);
+  const body = document.getElementById("recentLowStockBody");
+  if (body) {
+    body.innerHTML = lowStockItems.length
+      ? lowStockItems.map(p => `
+        <tr>
+          <td>${escapeHtml(p.name)}</td>
+          <td>${escapeHtml(p.code)}</td>
+          <td>${p.stock}</td>
+          <td><span class="status low">Low Stock</span></td>
+          <td><button class="text-btn" onclick="updateStock(${p.id})">Update</button></td>
+        </tr>`).join("")
+      : `<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px;">No low stock items right now.</td></tr>`;
+  }
+
+  const countEl = document.getElementById("paginationCount");
+  if (countEl) countEl.textContent = `Showing ${lowStockItems.length} of ${low} Products`;
+}
+
+function renderInventoryTable(products) {
+  const body = document.getElementById("inventoryBody");
+  if (!body) return;
+  body.innerHTML = products.length
+    ? products.map(p => {
+        const status = getStatus(Number(p.stock));
+        return `
+        <tr>
+          <td>${escapeHtml(p.name)}</td>
+          <td>${escapeHtml(p.code)}</td>
+          <td>${escapeHtml(p.category)}</td>
+          <td>${p.stock}</td>
+          <td><span class="status ${status.cls}">${status.label}</span></td>
+          <td><button class="text-btn" onclick="updateStock(${p.id})">Update Stock</button></td>
+        </tr>`;
+      }).join("")
+    : `<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px;">No products yet.</td></tr>`;
+}
+
+function renderLowStockTable(products) {
+  const body = document.getElementById("lowStockBody");
+  if (!body) return;
+  const items = products.filter(p => p.stock > 0 && p.stock < 10);
+  body.innerHTML = items.length
+    ? items.map(p => `
+      <tr>
+        <td>${escapeHtml(p.name)}</td>
+        <td>${escapeHtml(p.code)}</td>
+        <td>${escapeHtml(p.category)}</td>
+        <td>${p.stock}</td>
+        <td><span class="status low">Low Stock</span></td>
+        <td><button class="text-btn" onclick="updateStock(${p.id})">Update Stock</button></td>
+      </tr>`).join("")
+    : `<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px;">No low stock items right now.</td></tr>`;
+}
+
+function renderOutOfStockTable(products) {
+  const body = document.getElementById("outOfStockBody");
+  if (!body) return;
+  const items = products.filter(p => p.stock === 0);
+  body.innerHTML = items.length
+    ? items.map(p => `
+      <tr>
+        <td>${escapeHtml(p.name)}</td>
+        <td>${escapeHtml(p.code)}</td>
+        <td>${escapeHtml(p.category)}</td>
+        <td>${p.stock}</td>
+        <td><span class="status out">Out of Stock</span></td>
+        <td><button class="text-btn" onclick="restockProduct(${p.id})">Restock</button></td>
+      </tr>`).join("")
+    : `<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px;">Nothing out of stock right now.</td></tr>`;
+}
+
+// Called from an inline <script> at the bottom of each page
+// (except Manage Product, which manages its own render loop below).
+function initPage(page) {
+  document.body.dataset.page = page;
+  const products = loadProducts();
+
+  if (page === "dashboard") renderDashboard(products);
+  else if (page === "inventory") renderInventoryTable(products);
+  else if (page === "low-stock") renderLowStockTable(products);
+  else if (page === "out-of-stock") renderOutOfStockTable(products);
+
+  if (search && search.value) search.dispatchEvent(new Event("input"));
 }
 
 // ============================================================
@@ -62,53 +242,11 @@ if (loginForm) {
 
 // ============================================================
 // Manage Product page — full add / edit / delete, persisted
-// to localStorage as a stand-in for the future backend.
+// to the shared product data layer above.
 // ============================================================
 const productBody = document.getElementById("productBody");
 
 if (productBody) {
-  const STORAGE_KEY = "swm_products";
-
-  const seedProducts = [
-    { id: 1, name: "Baggy Pants", code: "#0001", category: "Pants", stock: 5 },
-    { id: 2, name: "Flared Jeans", code: "#0002", category: "Jeans", stock: 8 },
-    { id: 3, name: "Cargo Pants", code: "#0003", category: "Pants", stock: 12 },
-    { id: 4, name: "Skinny Jeans", code: "#0004", category: "Jeans", stock: 0 },
-  ];
-
-  function loadProducts() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      saveProducts(seedProducts);
-      return seedProducts.slice();
-    }
-    try {
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : seedProducts.slice();
-    } catch {
-      saveProducts(seedProducts);
-      return seedProducts.slice();
-    }
-  }
-
-  function saveProducts(products) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-  }
-
-  function getStatus(stock) {
-    if (stock === 0) return { cls: "out", label: "Out of Stock" };
-    if (stock < 10) return { cls: "low", label: "Low Stock" };
-    return { cls: "in", label: "In Stock" };
-  }
-
-  function nextCode(products) {
-    const max = products.reduce((m, p) => {
-      const n = parseInt(String(p.code).replace("#", ""), 10);
-      return isNaN(n) ? m : Math.max(m, n);
-    }, 0);
-    return "#" + String(max + 1).padStart(4, "0");
-  }
-
   function renderProducts() {
     const products = loadProducts();
     productBody.innerHTML = "";
@@ -137,12 +275,6 @@ if (productBody) {
     if (search && search.value) {
       search.dispatchEvent(new Event("input"));
     }
-  }
-
-  function escapeHtml(str) {
-    const div = document.createElement("div");
-    div.textContent = String(str ?? "");
-    return div.innerHTML;
   }
 
   // ---- Modal wiring ----
