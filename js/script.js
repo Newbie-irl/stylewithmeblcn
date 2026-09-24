@@ -8,9 +8,151 @@ if (CURRENT_PAGE !== LOGIN_PAGE && localStorage.getItem("swm_loggedIn") !== "tru
   location.href = LOGIN_PAGE;
 }
 
-function logout() {
+async function logout() {
+  const confirmed = await showConfirmModal({
+    title: "Log Out",
+    message: "Are you sure you want to log out?",
+    confirmLabel: "Log Out",
+    danger: false,
+  });
+  if (!confirmed) return;
   localStorage.removeItem("swm_loggedIn");
   location.href = LOGIN_PAGE;
+}
+
+// ============================================================
+// Shared popup system — confirmation modal, stock-update modal,
+// and toast notifications. Injected once per page and reused by
+// every action across Manage Product, Manage Inventory, Low
+// Stock Alert, Out of Stock and the Dashboard.
+// ============================================================
+function ensurePopupRoot() {
+  if (document.getElementById("confirmModal")) return;
+
+  const confirmModal = document.createElement("div");
+  confirmModal.id = "confirmModal";
+  confirmModal.className = "modal-overlay";
+  confirmModal.innerHTML = `
+    <div class="modal modal-sm">
+      <h3 id="confirmModalTitle">Are you sure?</h3>
+      <p id="confirmModalMessage" class="modal-message"></p>
+      <div class="modal-actions">
+        <button type="button" id="confirmModalCancel" class="btn-secondary">Cancel</button>
+        <button type="button" id="confirmModalOk" class="primary">Confirm</button>
+      </div>
+    </div>`;
+  document.body.appendChild(confirmModal);
+
+  const stockModal = document.createElement("div");
+  stockModal.id = "stockModal";
+  stockModal.className = "modal-overlay";
+  stockModal.innerHTML = `
+    <div class="modal modal-sm">
+      <h3 id="stockModalTitle">Update Stock</h3>
+      <form id="stockModalForm">
+        <div class="form-group">
+          <label for="stockModalInput">New stock quantity</label>
+          <input type="number" id="stockModalInput" min="0" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="stockModalCancel" class="btn-secondary">Cancel</button>
+          <button type="submit" class="primary">Save</button>
+        </div>
+      </form>
+    </div>`;
+  document.body.appendChild(stockModal);
+
+  const toast = document.createElement("div");
+  toast.id = "toast";
+  toast.className = "toast";
+  document.body.appendChild(toast);
+}
+
+let toastTimer = null;
+function showToast(message) {
+  ensurePopupRoot();
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+}
+
+// Generic yes/no confirmation popup. Resolves true (confirmed) or
+// false (cancelled/dismissed).
+function showConfirmModal({ title = "Are you sure?", message = "", confirmLabel = "Confirm", danger = true } = {}) {
+  ensurePopupRoot();
+  return new Promise(resolve => {
+    const modal = document.getElementById("confirmModal");
+    document.getElementById("confirmModalTitle").textContent = title;
+    document.getElementById("confirmModalMessage").textContent = message;
+    const okBtn = document.getElementById("confirmModalOk");
+    okBtn.textContent = confirmLabel;
+    okBtn.classList.toggle("danger-btn", danger);
+    const cancelBtn = document.getElementById("confirmModalCancel");
+
+    function cleanup(result) {
+      modal.classList.remove("open");
+      okBtn.removeEventListener("click", onOk);
+      cancelBtn.removeEventListener("click", onCancel);
+      modal.removeEventListener("click", onOverlay);
+      document.removeEventListener("keydown", onKey);
+      resolve(result);
+    }
+    function onOk() { cleanup(true); }
+    function onCancel() { cleanup(false); }
+    function onOverlay(e) { if (e.target === modal) cleanup(false); }
+    function onKey(e) { if (e.key === "Escape") cleanup(false); }
+
+    okBtn.addEventListener("click", onOk);
+    cancelBtn.addEventListener("click", onCancel);
+    modal.addEventListener("click", onOverlay);
+    document.addEventListener("keydown", onKey);
+
+    modal.classList.add("open");
+    okBtn.focus();
+  });
+}
+
+// Stock-quantity popup, used by "Update Stock" and "Restock".
+// Resolves the new stock number, or null if cancelled.
+function showStockModal(product) {
+  ensurePopupRoot();
+  return new Promise(resolve => {
+    const modal = document.getElementById("stockModal");
+    document.getElementById("stockModalTitle").textContent = `Update Stock — ${product.name}`;
+    const input = document.getElementById("stockModalInput");
+    input.value = product.stock;
+    const form = document.getElementById("stockModalForm");
+    const cancelBtn = document.getElementById("stockModalCancel");
+
+    function cleanup(result) {
+      modal.classList.remove("open");
+      form.removeEventListener("submit", onSubmit);
+      cancelBtn.removeEventListener("click", onCancel);
+      modal.removeEventListener("click", onOverlay);
+      document.removeEventListener("keydown", onKey);
+      resolve(result);
+    }
+    function onSubmit(e) {
+      e.preventDefault();
+      const val = parseInt(input.value, 10);
+      if (isNaN(val) || val < 0) return;
+      cleanup(val);
+    }
+    function onCancel() { cleanup(null); }
+    function onOverlay(e) { if (e.target === modal) cleanup(null); }
+    function onKey(e) { if (e.key === "Escape") cleanup(null); }
+
+    form.addEventListener("submit", onSubmit);
+    cancelBtn.addEventListener("click", onCancel);
+    modal.addEventListener("click", onOverlay);
+    document.addEventListener("keydown", onKey);
+
+    modal.classList.add("open");
+    input.focus();
+    input.select();
+  });
 }
 
 // ============================================================
@@ -75,22 +217,18 @@ function setText(id, value) {
 
 // Shared "update stock" action used by Manage Inventory, Low Stock
 // Alert, Out of Stock, and the Dashboard's low-stock table.
-function updateStock(productId) {
+async function updateStock(productId) {
   const products = loadProducts();
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
-  const input = prompt(`New stock quantity for "${product.name}":`, product.stock);
-  if (input === null) return;
-  const stock = parseInt(input, 10);
-  if (isNaN(stock) || stock < 0) {
-    alert("Please enter a valid, non-negative number.");
-    return;
-  }
+  const stock = await showStockModal(product);
+  if (stock === null) return;
 
   product.stock = stock;
   saveProducts(products);
   initPage(document.body.dataset.page);
+  showToast(`Stock updated for "${product.name}".`);
 }
 
 function restockProduct(productId) {
@@ -234,7 +372,7 @@ if (loginForm) {
       localStorage.setItem("swm_loggedIn", "true");
       location.href = "index.html";
     } else {
-      errorEl.textContent = "Invalid email or password. Try admin@gmail.com / admin123.";
+      errorEl.textContent = "Invalid account. Please check your email and password and try again.";
       errorEl.style.display = "block";
     }
   });
@@ -340,13 +478,15 @@ if (productBody) {
         });
       }
 
+      const wasEditing = Boolean(editingId);
       saveProducts(products);
       renderProducts();
       closeModal();
+      showToast(wasEditing ? `"${name}" updated.` : `"${name}" added.`);
     });
   }
 
-  productBody.addEventListener("click", function (e) {
+  productBody.addEventListener("click", async function (e) {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
     const id = Number(btn.dataset.id);
@@ -357,9 +497,16 @@ if (productBody) {
     if (btn.dataset.action === "edit") {
       openModal(product);
     } else if (btn.dataset.action === "delete") {
-      if (confirm(`Delete "${product.name}"? This cannot be undone.`)) {
+      const confirmed = await showConfirmModal({
+        title: "Delete Product",
+        message: `Delete "${product.name}"? This cannot be undone.`,
+        confirmLabel: "Delete",
+        danger: true,
+      });
+      if (confirmed) {
         saveProducts(products.filter(p => p.id !== id));
         renderProducts();
+        showToast(`"${product.name}" deleted.`);
       }
     }
   });
