@@ -18,7 +18,7 @@
         <div class="brand">StyleWithMeBLCN</div>
         <nav class="nav">
           <a class="nav-link active" href="index.html">⌘ <span>Dashboard</span></a>
-          <a class="nav-link" href="products.html">▣ <span>Manage Product</span></a>
+          <a class="nav-link admin-only" href="products.html">▣ <span>Manage Product</span></a>
           <a class="nav-link" href="inventory.html">▤ <span>Manage Inventory</span></a>
           <a class="nav-link" href="low-stock.html">⚠ <span>Low Stock Alert</span></a>
           <a class="nav-link" href="out-of-stock.html">⊗ <span>Out of Stocks</span></a>
@@ -35,7 +35,7 @@
           <span class="badge danger">⊗ Out of Stock</span>
           <div class="admin">
             <div class="avatar">◯</div>
-            <div><strong>Admin User</strong><small>admin@gmail.com</small></div>
+            <div><strong id="userRoleLabel">Admin User</strong><small id="userEmail">admin@gmail.com</small></div>
           </div>
         </div>
       </header>
@@ -66,7 +66,7 @@
         </section>
 
         <section class="management-grid">
-          <div class="panel">
+          <div class="panel admin-only">
             <h3>◇ Manage Product</h3>
             <p>Add, edit or remove products from your catalog.</p>
             <a class="action-row" href="products.html">☷ <span>View Stock List</span> →</a>

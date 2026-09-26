@@ -8,6 +8,42 @@ if (CURRENT_PAGE !== LOGIN_PAGE && localStorage.getItem("swm_loggedIn") !== "tru
   location.href = LOGIN_PAGE;
 }
 
+// ============================================================
+// Roles — "admin" has full access, "staff" is limited to
+// viewing stock and updating quantities (no Manage Product).
+// ============================================================
+const CURRENT_ROLE = localStorage.getItem("swm_role") || "admin";
+document.body.dataset.role = CURRENT_ROLE;
+
+const STAFF_RESTRICTED_PAGES = ["products.html"];
+
+if (CURRENT_PAGE !== LOGIN_PAGE && CURRENT_ROLE === "staff" && STAFF_RESTRICTED_PAGES.includes(CURRENT_PAGE)) {
+  sessionStorage.setItem("swm_accessDenied", "1");
+  location.href = "index.html";
+}
+
+// Hides admin-only nav links/controls and updates the sidebar
+// name/email for whoever is logged in. Called on every page.
+function applyRoleUI() {
+  document.querySelectorAll(".admin-only").forEach(el => {
+    el.classList.toggle("hidden-role", CURRENT_ROLE !== "admin");
+  });
+  const roleLabelEl = document.getElementById("userRoleLabel");
+  const roleEmailEl = document.getElementById("userEmail");
+  if (roleLabelEl) roleLabelEl.textContent = CURRENT_ROLE === "admin" ? "Admin User" : "Staff User";
+  if (roleEmailEl) roleEmailEl.textContent = CURRENT_ROLE === "admin" ? "admin@gmail.com" : "staff@gmail.com";
+}
+applyRoleUI();
+
+// If staff just got redirected away from a restricted page, let
+// them know why once the Dashboard finishes rendering.
+if (sessionStorage.getItem("swm_accessDenied")) {
+  sessionStorage.removeItem("swm_accessDenied");
+  window.addEventListener("DOMContentLoaded", () => {
+    showToast("Staff accounts don't have access to Manage Product.");
+  });
+}
+
 async function logout() {
   const confirmed = await showConfirmModal({
     title: "Log Out",
@@ -17,6 +53,7 @@ async function logout() {
   });
   if (!confirmed) return;
   localStorage.removeItem("swm_loggedIn");
+  localStorage.removeItem("swm_role");
   location.href = LOGIN_PAGE;
 }
 
@@ -359,17 +396,21 @@ if (search) {
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
-  const DEMO_EMAIL = "admin@gmail.com";
-  const DEMO_PASSWORD = "admin123";
+  const DEMO_ACCOUNTS = {
+    "admin@gmail.com": { password: "admin123", role: "admin" },
+    "staff@gmail.com": { password: "staff123", role: "staff" },
+  };
 
   loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    const email = document.getElementById("loginEmail").value.trim();
+    const email = document.getElementById("loginEmail").value.trim().toLowerCase();
     const password = document.getElementById("loginPassword").value;
     const errorEl = document.getElementById("loginError");
+    const account = DEMO_ACCOUNTS[email];
 
-    if (email.toLowerCase() === DEMO_EMAIL && password === DEMO_PASSWORD) {
+    if (account && account.password === password) {
       localStorage.setItem("swm_loggedIn", "true");
+      localStorage.setItem("swm_role", account.role);
       location.href = "index.html";
     } else {
       errorEl.textContent = "Invalid account. Please check your email and password and try again.";
