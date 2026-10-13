@@ -722,3 +722,79 @@ input {
 .hidden-role {
     display: none !important;
 }
+/* ============================================================
+   Final polish: mobile table scrolling and readability
+   ============================================================ */
+@media(max-width:700px) {
+    .table-wrap {
+        padding: 0 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        table-layout: auto;
+        min-width: 560px;
+        font-size: 12px;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+        padding: 10px 8px;
+    }
+
+    .table-panel table th,
+    .table-panel table td {
+        width: auto !important;
+    }
+
+    .text-btn {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .toolbar input {
+        min-width: 0;
+        flex: 1 1 160px;
+    }
+
+    .modal,
+    .modal-sm {
+        width: calc(100vw - 32px);
+        max-width: 420px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+.main {
+    min-width: 0;
+}
+
+.toolbar-filters {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+.toolbar-filters input {
+    flex: 1 1 200px;
+}
+
+.toolbar select {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    font-family: inherit;
+    cursor: pointer;
+}

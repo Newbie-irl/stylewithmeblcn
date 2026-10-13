@@ -32,6 +32,8 @@ function applyRoleUI() {
   const roleEmailEl = document.getElementById("userEmail");
   if (roleLabelEl) roleLabelEl.textContent = CURRENT_ROLE === "admin" ? "Admin User" : "Staff User";
   if (roleEmailEl) roleEmailEl.textContent = CURRENT_ROLE === "admin" ? "admin@gmail.com" : "staff@gmail.com";
+  const welcomeEl = document.getElementById("welcomeHeading");
+  if (welcomeEl) welcomeEl.textContent = CURRENT_ROLE === "admin" ? "Welcome back, admin!" : "Welcome back, staff!";
 }
 applyRoleUI();
 
@@ -272,10 +274,6 @@ function restockProduct(productId) {
   updateStock(productId);
 }
 
-function placeholderAction(label) {
-  console.log(`"${label}" will be connected in a later milestone.`);
-}
-
 // ============================================================
 // Per-page rendering, driven off the shared product data
 // ============================================================
@@ -373,7 +371,7 @@ function initPage(page) {
   else if (page === "low-stock") renderLowStockTable(products);
   else if (page === "out-of-stock") renderOutOfStockTable(products);
 
-  if (search && search.value) search.dispatchEvent(new Event("input"));
+  applyTableFilters();
 }
 
 // ============================================================
@@ -381,14 +379,38 @@ function initPage(page) {
 // ============================================================
 const search = document.getElementById("searchInput");
 
-if (search) {
-  search.addEventListener("input", function () {
-    const q = this.value.toLowerCase();
-    document.querySelectorAll("#productTable tbody tr").forEach(r => {
-      r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
-    });
+const statusFilter = document.getElementById("statusFilter");
+
+// Applies the search text and (when present) the status dropdown
+// to the rows currently in the table.
+function applyTableFilters() {
+  const q = search ? search.value.toLowerCase() : "";
+  const status = statusFilter ? statusFilter.value : "all";
+  let visible = 0;
+  document.querySelectorAll("#productTable tbody tr").forEach(r => {
+    if (r.classList.contains("no-results")) return;
+    const matchesText = r.innerText.toLowerCase().includes(q);
+    const badge = r.querySelector(".status");
+    const matchesStatus = status === "all" || (badge && badge.classList.contains(status));
+    const show = matchesText && matchesStatus;
+    r.style.display = show ? "" : "none";
+    if (show) visible++;
   });
+
+  const body = document.querySelector("#productTable tbody");
+  const existing = body && body.querySelector(".no-results");
+  const hasRows = body && body.querySelector("tr:not(.no-results) .status");
+  if (existing) existing.remove();
+  if (body && hasRows && visible === 0) {
+    const tr = document.createElement("tr");
+    tr.className = "no-results";
+    tr.innerHTML = `<td colspan="6" style="text-align:center;color:#aaa;padding:20px;">No products match your search or filter.</td>`;
+    body.appendChild(tr);
+  }
 }
+
+if (search) search.addEventListener("input", applyTableFilters);
+if (statusFilter) statusFilter.addEventListener("change", applyTableFilters);
 
 // ============================================================
 // Login page
@@ -451,9 +473,7 @@ if (productBody) {
       productBody.appendChild(tr);
     });
 
-    if (search && search.value) {
-      search.dispatchEvent(new Event("input"));
-    }
+    applyTableFilters();
   }
 
   // ---- Modal wiring ----
