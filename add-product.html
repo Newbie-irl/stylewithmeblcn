@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StyleWithMeBLCN | Add Product</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div>
+        <div class="brand">StyleWithMeBLCN</div>
+        <nav class="nav">
+          <a class="nav-link" href="index.html"><i data-icon="command"></i> <span>Dashboard</span></a>
+          <a class="nav-link active admin-only" href="products.html"><i data-icon="box"></i> <span>Manage Product</span></a>
+          <a class="nav-link" href="inventory.html"><i data-icon="database"></i> <span>Manage Inventory</span></a>
+          <a class="nav-link" href="low-stock.html"><i data-icon="bell"></i> <span>Low Stock Alert</span></a>
+          <a class="nav-link" href="out-of-stock.html"><i data-icon="xCircle"></i> <span>Out of Stocks</span></a>
+        </nav>
+      </div>
+      <button class="logout" onclick="logout()"><i data-icon="logout"></i> <span>Log Out</span></button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1 class="crumbs"><a href="products.html">Manage Product</a> <i data-icon="chevronRight"></i> <span id="crumbCurrent">Add Product</span></h1>
+        <div class="top-actions">
+          <span class="badge warning"><i data-icon="checkCircle"></i> <span class="badge-label">Low Stock</span></span>
+          <span class="badge danger"><i data-icon="xCircle"></i> <span class="badge-label">Out of Stock</span></span>
+          <div class="admin">
+            <i data-icon="user" data-class="avatar-ic"></i>
+            <div><strong id="userRoleLabel">Admin User</strong><small id="userEmail">admin@gmail.com</small></div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content form-content">
+        <section class="form-card form-top">
+          <a class="back-btn" href="products.html" aria-label="Back to Manage Product"><i data-icon="arrowLeft"></i></a>
+          <div>
+            <h2 id="formTitle">Add New Product</h2>
+            <p id="formSubtitle">Fill in the details below to add a product to your inventory</p>
+          </div>
+        </section>
+
+        <form id="productForm" novalidate>
+          <section class="form-card">
+            <h3>Product information</h3>
+            <div class="form-grid">
+              <div class="field">
+                <label for="productCode">Product Code (SKU)<span class="req">*</span></label>
+                <input id="productCode" class="fld" type="text" placeholder="Enter products code(e.g #0006)" autocomplete="off">
+                <small class="field-error" id="err-code"></small>
+              </div>
+              <div class="field">
+                <label for="productReorder">Reorder Level <span class="req">*</span></label>
+                <input id="productReorder" class="fld" type="number" min="0" placeholder="Enter Reorder level">
+                <small class="field-error" id="err-reorder"></small>
+              </div>
+              <div class="field">
+                <label for="productCategory">Category<span class="req">*</span></label>
+                <select id="productCategory" class="fld">
+                  <option value="" disabled selected>Select category</option>
+                  <option>Pants</option>
+                  <option>Jorts</option>
+                </select>
+                <small class="field-error" id="err-category"></small>
+              </div>
+              <div class="field">
+                <label for="productName">Product Name<span class="req">*</span></label>
+                <input id="productName" class="fld" type="text" placeholder="e.g. Baggy Jeans" autocomplete="off">
+                <small class="field-error" id="err-name"></small>
+              </div>
+              <div class="field">
+                <label for="productStock">Current Stock<span class="req">*</span></label>
+                <input id="productStock" class="fld" type="number" min="0" placeholder="e.g. 20">
+                <small class="field-error" id="err-stock"></small>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-card">
+            <h3 class="sm">Product Images</h3>
+            <p class="hint">Upload one or two images of the product.</p>
+            <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload product images">
+              <div class="dz-inner">
+                <i data-icon="uploadCloud" data-class="dz-icon"></i>
+                <div>
+                  <strong>Drag and drop images here</strong>
+                  <span>or click to browse</span>
+                  <span>PNG, JPG, JPEG up to 5MB</span>
+                </div>
+              </div>
+              <input id="imageInput" type="file" accept="image/png,image/jpeg" multiple hidden>
+            </div>
+            <div class="img-previews" id="imagePreviews"></div>
+          </section>
+
+          <div class="form-actions">
+            <a class="btn-outline" href="products.html">Cancel</a>
+            <button type="submit" class="btn-solid"><i data-icon="save"></i> Save Changes</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+  <script>hydrateIcons();</script>
+</body>
+
+</html>

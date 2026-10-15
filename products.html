@@ -2,96 +2,96 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StyleWithMeBLCN | Manage Product</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StyleWithMeBLCN | Manage Product</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="app">
-        <aside class="sidebar">
-            <div>
-                <div class="brand">StyleWithMeBLCN</div>
-                <nav class="nav">
-                    <a class="nav-link " href="index.html">⌘ <span>Dashboard</span></a>
-                    <a class="nav-link active admin-only" href="products.html">▣ <span>Manage Product</span></a>
-                    <a class="nav-link " href="inventory.html">▤ <span>Manage Inventory</span></a>
-                    <a class="nav-link " href="low-stock.html">⚠ <span>Low Stock Alert</span></a>
-                    <a class="nav-link " href="out-of-stock.html">⊗ <span>Out of Stocks</span></a>
-                </nav>
-            </div><button class="logout" onclick="logout()">↪ Log Out</button>
-        </aside>
-        <main class="main">
-            <header class="topbar">
-                <h1>Manage Product</h1>
-                <div class="top-actions"><span class="badge warning">✔ Low Stock</span><span class="badge danger">⊗ Out
-                        of Stock</span>
-                    <div class="admin">
-                        <div class="avatar">◯</div>
-                        <div><strong id="userRoleLabel">Admin User</strong><small id="userEmail">admin@gmail.com</small></div>
-                    </div>
-                </div>
-            </header>
-            <section class="content">
-                <div class="page-heading">
-                    <h2>Manage Product</h2>
-                    <p>Add, edit, delete, and view products in your catalog.</p>
-                </div>
-                <section class="table-panel full">
-                    <div class="toolbar"><div class="toolbar-filters"><input id="searchInput" type="search" placeholder="Search product..."><select id="statusFilter" aria-label="Filter by stock status"><option value="all">All Status</option><option value="in">In Stock</option><option value="low">Low Stock</option><option value="out">Out of Stock</option></select></div><button
-                            id="addProductBtn" class="primary">+ Add
-                            Product</button></div>
-                    <div class="table-wrap">
-                        <table id="productTable">
-                            <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Code</th>
-                                    <th>Category</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="productBody">
-                                <!-- Rendered dynamically by js/script.js -->
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-            </section>
-        </main>
-    </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div>
+        <div class="brand">StyleWithMeBLCN</div>
+        <nav class="nav">
+          <a class="nav-link" href="index.html"><i data-icon="command"></i> <span>Dashboard</span></a>
+          <a class="nav-link active admin-only" href="products.html"><i data-icon="box"></i> <span>Manage Product</span></a>
+          <a class="nav-link" href="inventory.html"><i data-icon="database"></i> <span>Manage Inventory</span></a>
+          <a class="nav-link" href="low-stock.html"><i data-icon="bell"></i> <span>Low Stock Alert</span></a>
+          <a class="nav-link" href="out-of-stock.html"><i data-icon="xCircle"></i> <span>Out of Stocks</span></a>
+        </nav>
+      </div>
+      <button class="logout" onclick="logout()"><i data-icon="logout"></i> <span>Log Out</span></button>
+    </aside>
 
-    <div id="productModal" class="modal-overlay">
-        <div class="modal">
-            <h3 id="modalTitle">Add Product</h3>
-            <form id="productForm">
-                <div class="form-group">
-                    <label for="productName">Item Name</label>
-                    <input type="text" id="productName" placeholder="e.g. Baggy Pants" required>
-                </div>
-                <div class="form-group">
-                    <label for="productCategory">Category</label>
-                    <input type="text" id="productCategory" placeholder="e.g. Pants" required>
-                </div>
-                <div class="form-group">
-                    <label for="productStock">Stock Quantity</label>
-                    <input type="number" id="productStock" min="0" placeholder="e.g. 10" required>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" id="cancelModalBtn" class="btn-secondary">Cancel</button>
-                    <button type="submit" class="primary">Save Product</button>
-                </div>
-            </form>
+    <main class="main">
+      <header class="topbar">
+        <h1>Manage Product</h1>
+        <div class="top-actions">
+          <span class="badge warning"><i data-icon="checkCircle"></i> <span class="badge-label">Low Stock</span></span>
+          <span class="badge danger"><i data-icon="xCircle"></i> <span class="badge-label">Out of Stock</span></span>
+          <div class="admin">
+            <i data-icon="user" data-class="avatar-ic"></i>
+            <div><strong id="userRoleLabel">Admin User</strong><small id="userEmail">admin@gmail.com</small></div>
+          </div>
         </div>
-    </div>
+      </header>
 
-    <script src="js/script.js"></script>
+      <section class="content">
+        <div class="alert-head">
+          <h2>Manage Product</h2>
+          <p>Add, edit, or remove products from your catalog.</p>
+        </div>
+
+        <section class="list-card">
+          <div class="list-head">
+            <h2>Product List</h2>
+            <div class="list-tools">
+              <input id="productSearch" type="search" placeholder="Search product..." aria-label="Search products">
+              <select id="productStatus" aria-label="Filter by stock status">
+                <option value="all">All Status</option>
+                <option value="in">In Stock</option>
+                <option value="low">Low Stock</option>
+                <option value="out">Out of Stock</option>
+              </select>
+              <a class="btn-add" href="add-product.html"><i data-icon="plus"></i> Add Product</a>
+            </div>
+          </div>
+
+          <div class="table-wrap plist-wrap">
+            <table class="plist">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Current Stock</th>
+                  <th>Reorder Level</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="productBody"></tbody>
+            </table>
+          </div>
+
+          <div class="list-foot">
+            <span id="listCount">Showing 0 of 0 items</span>
+            <div class="pager" id="listPager"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="viewModal" class="modal-overlay">
+    <div class="modal modal-view" id="viewModalBody" role="dialog" aria-modal="true" aria-label="Product details"></div>
+  </div>
+
+  <script src="js/script.js"></script>
+  <script>hydrateIcons();</script>
 </body>
 
 </html>

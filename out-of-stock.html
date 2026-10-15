@@ -2,72 +2,93 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StyleWithMeBLCN | Out of Stocks</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StyleWithMeBLCN | Out of Stocks</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="app">
-        <aside class="sidebar">
-            <div>
-                <div class="brand">StyleWithMeBLCN</div>
-                <nav class="nav">
-                    <a class="nav-link " href="index.html">⌘ <span>Dashboard</span></a>
-                    <a class="nav-link admin-only" href="products.html">▣ <span>Manage Product</span></a>
-                    <a class="nav-link " href="inventory.html">▤ <span>Manage Inventory</span></a>
-                    <a class="nav-link " href="low-stock.html">⚠ <span>Low Stock Alert</span></a>
-                    <a class="nav-link active" href="out-of-stock.html">⊗ <span>Out of Stocks</span></a>
-                </nav>
-            </div><button class="logout" onclick="logout()">↪ Log Out</button>
-        </aside>
-        <main class="main">
-            <header class="topbar">
-                <h1>Out of Stocks</h1>
-                <div class="top-actions"><span class="badge warning">✔ Low Stock</span><span class="badge danger">⊗ Out
-                        of Stock</span>
-                    <div class="admin">
-                        <div class="avatar">◯</div>
-                        <div><strong id="userRoleLabel">Admin User</strong><small id="userEmail">admin@gmail.com</small></div>
-                    </div>
-                </div>
-            </header>
-            <section class="content">
-                <div class="page-heading">
-                    <h2>Out of Stock Products</h2>
-                    <p>Products currently unavailable in your inventory.</p>
-                </div>
-                <section class="table-panel full">
-                    <div class="toolbar">
-                        <input id="searchInput" type="search" placeholder="Search product...">
-                    </div>
-                    <div class="table-wrap">
-                        <table id="productTable">
-                            <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Code</th>
-                                    <th>Category</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="outOfStockBody">
-                                <!-- Rendered dynamically by js/script.js -->
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-            </section>
-        </main>
-    </div>
-    <script src="js/script.js"></script>
-    <script>initPage('out-of-stock');</script>
+  <div class="app">
+    <aside class="sidebar">
+      <div>
+        <div class="brand">StyleWithMeBLCN</div>
+        <nav class="nav">
+          <a class="nav-link" href="index.html"><i data-icon="command"></i> <span>Dashboard</span></a>
+          <a class="nav-link admin-only" href="products.html"><i data-icon="box"></i> <span>Manage Product</span></a>
+          <a class="nav-link" href="inventory.html"><i data-icon="database"></i> <span>Manage Inventory</span></a>
+          <a class="nav-link" href="low-stock.html"><i data-icon="bell"></i> <span>Low Stock Alert</span></a>
+          <a class="nav-link active" href="out-of-stock.html"><i data-icon="xCircle"></i> <span>Out of Stocks</span></a>
+        </nav>
+      </div>
+      <button class="logout" onclick="logout()"><i data-icon="logout"></i> <span>Log Out</span></button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1>Out of Stocks</h1>
+        <div class="top-actions">
+          <span class="badge warning"><i data-icon="checkCircle"></i> <span class="badge-label">Low Stock</span></span>
+          <span class="badge danger"><i data-icon="xCircle"></i> <span class="badge-label">Out of Stock</span></span>
+          <div class="admin">
+            <i data-icon="user" data-class="avatar-ic"></i>
+            <div><strong id="userRoleLabel">Admin User</strong><small id="userEmail">admin@gmail.com</small></div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="alert-head">
+          <h2>Out of Stock</h2>
+          <p>These products are currently unavailable. Restock them soon to resume sales.</p>
+        </div>
+
+        <section class="stats single">
+          <div class="stat-card">
+            <div class="stat-icon red"><i data-icon="xCircle"></i></div>
+            <div><span>Out of Stock</span><strong id="statAlert">0</strong><small>Currently unavailable</small></div>
+          </div>
+        </section>
+
+        <section class="list-card">
+          <div class="list-head">
+            <h2>Out of Stock Products</h2>
+            <div class="list-tools">
+              <input id="alertSearch" type="search" placeholder="Search product..." aria-label="Search products">
+            </div>
+          </div>
+
+          <div class="table-wrap plist-wrap">
+            <table class="plist">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Current Stock</th>
+                  <th>Reorder Level</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="alertBody"></tbody>
+            </table>
+          </div>
+
+          <div class="list-foot">
+            <span id="alertCount">Showing 0 of 0 items</span>
+            <div class="pager" id="alertPager"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+
+  <script src="js/script.js"></script>
+  <script>initPage('out-of-stock');</script>
 </body>
 
 </html>

@@ -4,34 +4,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StyleWithMeBLCN | Log In</title>
+  <title>StyleWithMeBLCN | Sign In</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="login-page">
-  <div class="login-card">
-    <div class="brand" style="text-align:center;">StyleWithMeBLCN</div>
-    <p class="login-sub">Sign in to manage your inventory</p>
+<body class="login-page signin-bg">
+  <main class="signin-card">
+    <section class="signin-brand">
+      <h1>StyleWithMeBLCN</h1>
+      <p>Inventory Management</p>
+    </section>
 
-    <div id="loginError" class="error-msg"></div>
+    <section class="signin-panel">
+      <h2>Sign In</h2>
 
-    <form id="loginForm" novalidate>
-      <div class="form-group">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" placeholder="you@example.com" required autocomplete="username">
-      </div>
-      <div class="form-group">
-        <label for="loginPassword">Password</label>
-        <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
-      </div>
-      <button type="submit" class="primary">Log In</button>
-    </form>
+      <div id="loginError" class="error-msg" role="alert"></div>
 
-    
-  </div>
+      <form id="loginForm" novalidate>
+        <label class="sr-only" for="loginEmail">Username</label>
+        <input type="text" id="loginEmail" class="signin-input" placeholder="Username" required autocomplete="username">
+
+        <label class="sr-only" for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" class="signin-input" placeholder="Password" required autocomplete="current-password">
+
+        <div class="signin-row">
+          <label class="remember"><input type="checkbox" id="rememberMe"> <span>Remember me</span></label>
+          <a href="#" id="forgotLink">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="signin-btn">Log in</button>
+      </form>
+    </section>
+  </main>
   <script src="js/script.js"></script>
 </body>
 
